@@ -10,6 +10,7 @@ import VideoCallRecorder from './components/VideoCallRecorder'
 import InterviewPrep from './pages/InterviewPrep'
 import PathFinder from './pages/PathFinder'
 import Growth from './pages/growth'
+import QuickConnect from './pages/quickconnect'
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/dashboard/resumecraft" element={<ResumeCraft />} />
         <Route path="/dashboard/pathfinder" element={<PathFinder />} />
         <Route path="/dashboard/growth" element={<Growth />} />
+        <Route path="/dashboard/quickconnect" element={<QuickConnect />} />
         {/* Resume Craft Portfolio Routes */}
         <Route path="/dashboard/resumecraft/portfolio" element={<Portfolio />} />
         <Route path="/dashboard/resumecraft/portfolio/:type" element={<Portfolio />} />
