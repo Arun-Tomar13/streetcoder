@@ -22,7 +22,11 @@ import {
   LightBulbIcon,
   MicrophoneIcon,
   ArrowUpIcon,
-  ArrowDownIcon
+  ArrowDownIcon,
+  DocumentArrowUpIcon,
+  ArrowRightIcon,
+  GlobeAltIcon,
+  CodeBracketIcon
 } from '@heroicons/react/24/outline';
 import themes from '../theme';
 
@@ -222,6 +226,8 @@ const Sidebar = () => {
 // Main Dashboard Component
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [githubUrl, setGithubUrl] = useState('');
+  const [linkedinUrl, setLinkedinUrl] = useState('');
   
   // Career progress stats
   const stats = [
@@ -287,7 +293,7 @@ const Dashboard = () => {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
               <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center cursor-pointer">
                 <BellIcon className="h-5 w-5 text-white" />
-              </div>
+            </div>
             </motion.div>
           </div>
         </div>
@@ -302,9 +308,9 @@ const Dashboard = () => {
             className="mb-8 flex items-center justify-between"
           >
             <div>
-              <h2 className="text-3xl font-bold text-gray-800 mb-2">Welcome back, Alex</h2>
-              <p className="text-gray-600">Your career growth is on track. Here's what you can focus on today.</p>
-            </div>
+            <h2 className="text-3xl font-bold text-gray-800 mb-2">Welcome back, Alex</h2>
+            <p className="text-gray-600">Your career growth is on track. Here's what you can focus on today.</p>
+          </div>
             <div className="w-48 h-48">
               <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
                 <ambientLight intensity={0.5} />
@@ -468,7 +474,7 @@ const Dashboard = () => {
               transition={{ duration: 0.5, delay: 0.7 }}
               className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100"
             >
-              <div className="flex justify-between items-center mb-4">
+                <div className="flex justify-between items-center mb-4">
                 <h3 className="font-semibold text-gray-800">Upcoming Events</h3>
                 <motion.button 
                   whileHover={{ scale: 1.05 }} 
@@ -489,10 +495,10 @@ const Dashboard = () => {
                   </Float>
                   <Environment preset="city" />
                 </Canvas>
-              </div>
-              
-              <div className="space-y-4">
-                {upcomingEvents.map((event, index) => (
+                </div>
+                
+                <div className="space-y-4">
+                  {upcomingEvents.map((event, index) => (
                   <motion.div 
                     key={index}
                     initial={{ opacity: 0, x: -20 }}
@@ -503,18 +509,18 @@ const Dashboard = () => {
                     <div className="p-2 rounded-lg mr-3 bg-[#F5F5F7]">
                       {event.type === 'Interview' ? (
                         <UserGroupIcon className="h-5 w-5 text-black" />
-                      ) : event.type === 'Community' ? (
+                        ) : event.type === 'Community' ? (
                         <BellIcon className="h-5 w-5 text-black" />
-                      ) : (
+                        ) : (
                         <DocumentTextIcon className="h-5 w-5 text-black" />
-                      )}
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-medium text-gray-800">{event.title}</h4>
-                      <p className="text-xs text-gray-500">{event.time}</p>
-                    </div>
+                        )}
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-medium text-gray-800">{event.title}</h4>
+                        <p className="text-xs text-gray-500">{event.time}</p>
+                      </div>
                   </motion.div>
-                ))}
+                  ))}
               </div>
             </motion.div>
           </div>
@@ -570,7 +576,7 @@ const Dashboard = () => {
                     </motion.button>
                   </div>
                 </div>
-              </div>
+            </div>
             </div>
           </motion.div>
         </div>
