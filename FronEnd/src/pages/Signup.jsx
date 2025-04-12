@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-hot-toast';
+import { toast, Toaster } from 'react-hot-toast';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { LightBulbIcon } from '@heroicons/react/24/solid';
@@ -15,30 +15,55 @@ function Signup() {
     githubProfile: '',
     linkedinProfile: ''
   });
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
+    
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors({
+        ...errors,
+        [name]: ''
+      });
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    }
+    
+    if (!formData.password.trim()) {
+      newErrors.password = 'Password is required';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-
-    try {
-      const response = await axios.post('http://localhost:3000/signup', formData);
-      
-      sessionStorage.setItem('token', response.data.token);
-      sessionStorage.setItem('user', JSON.stringify(response.data.user));
-      toast.success('Signup successful!');
-      navigate('/dashboard');
-    } catch (error) {
-      toast.error(error.response?.data?.message || 'Signup failed');
-    } finally {
-      setLoading(false);
+    
+    // Validate form before proceeding
+    if (!validateForm()) {
+      toast.error('Please fill in all required fields');
+      return;
     }
+    
+    setLoading(true);
+    
+    await new Promise(resolve => setTimeout(resolve, 250));
+    
+    setLoading(false);
+    
+    navigate('/dashboard');
   };
 
   const containerVariants = {
@@ -86,6 +111,8 @@ function Signup() {
 
   return (
     <div className="flex h-screen bg-gradient-to-br from-blue-100 via-white to-pink-100 overflow-hidden">
+      <Toaster position="top-right" toastOptions={{ style: { background: 'white', color: 'black' } }} />
+      
       {/* Left side - Signup Form */}
       <motion.div 
         className="w-1/2 flex items-center justify-center p-8"
@@ -130,13 +157,21 @@ function Signup() {
                   id="email"
                   name="email"
                   type="email"
-                  required
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full px-3 py-2.5 bg-white border ${currentField === 'email' ? 'border-teal-500 ring-2 ring-teal-500/30' : 'border-gray-200'} rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none transition duration-300`}
+                  className={`w-full px-3 py-2.5 bg-white border ${errors.email ? 'border-red-500' : currentField === 'email' ? 'border-teal-500 ring-2 ring-teal-500/30' : 'border-gray-200'} rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none transition duration-300`}
                   placeholder="Enter your email"
                 />
               </motion.div>
+              {errors.email && (
+                <motion.p 
+                  className="mt-1 text-xs text-red-500"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                >
+                  {errors.email}
+                </motion.p>
+              )}
             </motion.div>
             
             <motion.div variants={itemVariants}>
@@ -153,13 +188,21 @@ function Signup() {
                   id="password"
                   name="password"
                   type="password"
-                  required
                   value={formData.password}
                   onChange={handleChange}
-                  className={`w-full px-3 py-2.5 bg-white border ${currentField === 'password' ? 'border-teal-500 ring-2 ring-teal-500/30' : 'border-gray-200'} rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none transition duration-300`}
+                  className={`w-full px-3 py-2.5 bg-white border ${errors.password ? 'border-red-500' : currentField === 'password' ? 'border-teal-500 ring-2 ring-teal-500/30' : 'border-gray-200'} rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none transition duration-300`}
                   placeholder="Enter your password"
                 />
               </motion.div>
+              {errors.password && (
+                <motion.p 
+                  className="mt-1 text-xs text-red-500"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                >
+                  {errors.password}
+                </motion.p>
+              )}
             </motion.div>
             
             <motion.div variants={itemVariants}>
@@ -302,13 +345,13 @@ function Signup() {
         
         {/* Content card with glass effect */}
         <motion.div 
-          className="relative z-10 bg-white bg-opacity-20 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-white border-opacity-20 max-w-md"
+          className="relative z-10 bg-white text-black bg-opacity-20 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-white border-opacity-20 max-w-md"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.5 }}
         >
           <motion.h1 
-            className="text-4xl font-bold text-white mb-4"
+            className="text-4xl font-bold text-black mb-4"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.7 }}
@@ -316,7 +359,7 @@ function Signup() {
             Career Companion
           </motion.h1>
           <motion.p 
-            className="text-lg text-white mb-8 opacity-90"
+            className="text-lg text-black  mb-8 opacity-90"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.9 }}
@@ -325,14 +368,14 @@ function Signup() {
           </motion.p>
           
           <motion.div 
-            className="space-y-4"
+            className="space-y-4 text-black"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
             transition={{ delayChildren: 1.2, staggerChildren: 0.2 }}
           >
             <motion.div 
-              className="flex items-center space-x-3 text-white"
+              className="flex items-center space-x-3 text-black"
               variants={itemVariants}
               whileHover={{ scale: 1.02, x: 5 }}
             >
@@ -340,7 +383,7 @@ function Signup() {
                 className="w-8 h-8 rounded-full bg-white bg-opacity-30 flex items-center justify-center"
                 whileHover={{ scale: 1.1, backgroundColor: 'rgba(255, 255, 255, 0.4)' }}
               >
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                 </svg>
               </motion.div>
@@ -348,15 +391,15 @@ function Signup() {
             </motion.div>
             
             <motion.div 
-              className="flex items-center space-x-3 text-white"
+              className="flex items-center space-x-3 text-black"
               variants={itemVariants}
               whileHover={{ scale: 1.02, x: 5 }}
             >
               <motion.div 
-                className="w-8 h-8 rounded-full bg-white bg-opacity-30 flex items-center justify-center"
+                className="w-8 h-8 rounded-full bg-white text-black bg-opacity-30 flex items-center justify-center"
                 whileHover={{ scale: 1.1, backgroundColor: 'rgba(255, 255, 255, 0.4)' }}
               >
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                 </svg>
               </motion.div>
@@ -364,15 +407,15 @@ function Signup() {
             </motion.div>
             
             <motion.div 
-              className="flex items-center space-x-3 text-white"
+              className="flex items-center space-x-3 text-black"
               variants={itemVariants}
               whileHover={{ scale: 1.02, x: 5 }}
             >
               <motion.div 
-                className="w-8 h-8 rounded-full bg-white bg-opacity-30 flex items-center justify-center"
+                className="w-8 h-8 rounded-full bg-white text-black bg-opacity-30 flex items-center justify-center"
                 whileHover={{ scale: 1.1, backgroundColor: 'rgba(255, 255, 255, 0.4)' }}
               >
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                 </svg>
               </motion.div>
@@ -386,14 +429,14 @@ function Signup() {
             animate={{ opacity: 1 }}
             transition={{ delay: 2, duration: 1 }}
           >
-            <p className="text-white text-sm opacity-80 italic">
+            <p className="text-black text-sm opacity-80 italic">
               "CareerCompass helped me identify my strengths and guided me toward a career path I never would have considered on my own."
             </p>
             <div className="mt-3 flex items-center">
               <div className="w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center text-teal-800 font-medium text-sm">MJ</div>
               <div className="ml-2">
-                <p className="text-white text-sm font-medium">Maria Johnson</p>
-                <p className="text-white text-xs opacity-70">Product Manager at TechCorp</p>
+                <p className="text-black text-sm font-medium">Maria Johnson</p>
+                <p className="text-black text-xs opacity-70">Product Manager at TechCorp</p>
               </div>
             </div>
           </motion.div>

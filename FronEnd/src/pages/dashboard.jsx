@@ -22,9 +22,10 @@ import {
 import themes from '../theme';
 import { Link } from 'react-router-dom';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, Float, Environment, Box, Sphere } from '@react-three/drei';
+import { OrbitControls, Float, Box, Sphere } from '@react-three/drei';
 import { motion } from 'framer-motion';
 import VoiceRecorder from '../components/VoiceRecorder';
+import SafeEnvironment from '../components/EnvironmentFallback';
 
 // Basic 3D objects instead of model files
 const LightbulbModel = () => {
@@ -232,7 +233,7 @@ const Dashboard = () => {
                 <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.5}>
                   <LightbulbModel />
                 </Float>
-                <Environment preset="city" />
+                <SafeEnvironment preset="sunset" />
               </Canvas>
             </div>
           </motion.div>
@@ -406,7 +407,7 @@ const Dashboard = () => {
                   <Float speed={1} rotationIntensity={0.2} floatIntensity={0.2}>
                     <CalendarModel />
                   </Float>
-                  <Environment preset="city" />
+                  <SafeEnvironment preset="dawn" />
                 </Canvas>
                 </div>
                 
@@ -453,7 +454,7 @@ const Dashboard = () => {
                   <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.5}>
                     <RobotModel />
                   </Float>
-                  <Environment preset="city" />
+                  <SafeEnvironment preset="night" />
                 </Canvas>
               </div>
               

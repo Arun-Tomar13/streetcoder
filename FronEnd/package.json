@@ -13,10 +13,17 @@
     "@heroicons/react": "^2.2.0",
     "@react-three/drei": "^10.0.6",
     "@react-three/fiber": "^9.1.2",
+<<<<<<< HEAD
     "@splinetool/react-spline": "^4.0.0",
+=======
+    "agora-rtc-react": "^2.4.0",
+    "agora-rtc-sdk-ng": "^4.23.2",
+    "aos": "^2.3.4",
+>>>>>>> da2feb0722c6c5d4e663cf80331ba58fc3493541
     "axios": "^1.8.4",
     "framer-motion": "^12.6.5",
     "gsap": "^3.12.7",
+    "pdf-parse": "^1.1.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",

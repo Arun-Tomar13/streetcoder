@@ -8,8 +8,14 @@ import Developer from './pages/developer'
 import Elon from './pages/custom'
 import VideoCallRecorder from './components/VideoCallRecorder'
 import InterviewPrep from './pages/InterviewPrep'
+<<<<<<< HEAD
 import LearningDashboard from './pages/LearningDashboard'
 import CoachBot from './pages/CoachBot'
+=======
+import PathFinder from './pages/PathFinder'
+import Growth from './pages/growth'
+import QuickConnect from './pages/quickconnect'
+>>>>>>> da2feb0722c6c5d4e663cf80331ba58fc3493541
 
 function App() {
   return (
@@ -20,9 +26,15 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/dashboard/resumecraft" element={<ResumeCraft />} />
+<<<<<<< HEAD
         <Route path="/dashboard/learning" element={<LearningDashboard />} />
         <Route path="/dashboard/coachbot" element={<CoachBot />} />
         
+=======
+        <Route path="/dashboard/pathfinder" element={<PathFinder />} />
+        <Route path="/dashboard/growth" element={<Growth />} />
+        <Route path="/dashboard/quickconnect" element={<QuickConnect />} />
+>>>>>>> da2feb0722c6c5d4e663cf80331ba58fc3493541
         {/* Resume Craft Portfolio Routes */}
         <Route path="/dashboard/resumecraft/portfolio" element={<Portfolio />} />
         <Route path="/dashboard/resumecraft/portfolio/:type" element={<Portfolio />} />

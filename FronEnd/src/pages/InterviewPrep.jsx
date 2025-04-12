@@ -293,60 +293,6 @@ const InterviewPrep = () => {
     setError(null);
   };
   
-  // Render question section
-  const renderQuestionSection = () => {
-    return (
-      <div className="interview-prep-questions">
-        <div className="questions-container">
-          <QuestionPanel 
-            questions={questions}
-            currentQuestionIndex={currentQuestionIndex}
-            onNextQuestion={handleNextQuestion}
-            onPrevQuestion={handlePrevQuestion}
-            isRecording={isRecording}
-            timeRemaining={timeRemaining}
-            questionType={questions[currentQuestionIndex]?.type}
-            transcript={currentTranscript}
-            typedAnswer={typedAnswers[currentQuestionIndex]}
-            onTypedAnswerChange={handleTypedAnswerChange}
-          />
-        </div>
-        
-        <div className="interview-tools">
-          <div className="main-tool">
-            <VideoRecorder 
-              onRecordingStart={handleRecordingStart}
-              onRecordingStop={handleRecordingStop}
-              onTranscriptUpdate={handleTranscriptUpdate}
-              isQuestionActive={true}
-              ref={videoRef}
-            />
-          </div>
-          
-          <div className="side-tool">
-            <EmotionTracker 
-              videoRef={videoRef}
-              isRecording={isRecording}
-              onEmotionUpdate={handleEmotionUpdate}
-            />
-          </div>
-        </div>
-        
-        <div className="progress-indicator">
-          <div className="progress-text">
-            Question {currentQuestionIndex + 1} of {questions.length}
-          </div>
-          <div className="progress-bar">
-            <div 
-              className="progress" 
-              style={{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }}
-            ></div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-  
   return (
     <div className="interview-prep">
       <header className="interview-header">
@@ -368,7 +314,50 @@ const InterviewPrep = () => {
           />
         )}
         
-        {currentStep === 'questions' && renderQuestionSection()}
+        {currentStep === 'questions' && (
+          <div className="interview-grid">
+            <div className="questions-section">
+              <QuestionPanel 
+                questions={questions}
+                currentQuestionIndex={currentQuestionIndex}
+                questionType={questions[currentQuestionIndex]?.type}
+              />
+            </div>
+            
+            <div className="video-section">
+              <VideoRecorder 
+                onRecordingComplete={handleRecordingStop}
+                onRecordingStart={handleRecordingStart}
+                onTranscriptUpdate={handleTranscriptUpdate}
+                isRecording={isRecording}
+                setIsRecording={setIsRecording}
+                isQuestionActive={true}
+              />
+            </div>
+            
+            <div className="emotion-section">
+              <EmotionTracker 
+                videoRef={videoRef}
+                isRecording={isRecording}
+                onEmotionUpdate={handleEmotionUpdate}
+              />
+            </div>
+            
+            <div className="transcript-section">
+              <h3>Transcribe Audio</h3>
+              <p>{currentTranscript || 'Your speech will be transcribed here...'}</p>
+            </div>
+            
+            <div className="progress-section">
+              <div className="progress-bar">
+                <div 
+                  className="progress" 
+                  style={{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }}
+                />
+              </div>
+            </div>
+          </div>
+        )}
         
         {currentStep === 'feedback' && (
           <FeedbackReport 
