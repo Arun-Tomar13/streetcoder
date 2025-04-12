@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Sidebar from '../components/siderbar';
 import { 
   HomeIcon, 
@@ -10,200 +10,112 @@ import {
   QuestionMarkCircleIcon,
   AcademicCapIcon,
   LightBulbIcon,
-  MicrophoneIcon
+  MicrophoneIcon,
+  VideoCameraIcon,
+  BriefcaseIcon,
+  ArrowUpIcon,
+  ArrowDownIcon,
+  PauseIcon,
+  PlayIcon,
+  StopIcon
 } from '@heroicons/react/24/outline';
 import themes from '../theme';
+import { Link } from 'react-router-dom';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { OrbitControls, Float, Environment, Box, Sphere } from '@react-three/drei';
+import { motion } from 'framer-motion';
+import VoiceRecorder from '../components/VoiceRecorder';
 
 // Basic 3D objects instead of model files
 const LightbulbModel = () => {
-  const bulb = useMemo(() => {
-    return (
-      <group>
-        <Sphere args={[0.7, 32, 32]} position={[0, 0, 0]}>
-          <meshStandardMaterial color="#FFD700" emissive="#FFFFE0" emissiveIntensity={0.5} />
-        </Sphere>
-        <mesh position={[0, -1, 0]}>
-          <cylinderGeometry args={[0.3, 0.3, 0.5, 32]} />
-          <meshStandardMaterial color="#888888" />
-        </mesh>
-      </group>
-    );
-  }, []);
+  const mesh = useRef();
   
   useFrame((state) => {
-    state.camera.position.x = Math.sin(state.clock.getElapsedTime() * 0.3) * 3;
-    state.camera.position.z = Math.cos(state.clock.getElapsedTime() * 0.3) * 3;
-    state.camera.lookAt(0, 0, 0);
+    if (mesh.current) {
+      mesh.current.rotation.y += 0.01;
+    }
   });
   
-  return bulb;
+  return (
+    <group ref={mesh}>
+      <Sphere args={[0.7, 32, 32]} position={[0, 0, 0]}>
+        <meshStandardMaterial color="#FFD700" emissive="#FFFFE0" emissiveIntensity={0.5} />
+      </Sphere>
+      <mesh position={[0, -1, 0]}>
+        <cylinderGeometry args={[0.3, 0.3, 0.5, 32]} />
+        <meshStandardMaterial color="#888888" />
+      </mesh>
+    </group>
+  );
 };
 
 const CalendarModel = () => {
-  const calendar = useMemo(() => {
-    return (
-      <group>
-        <Box args={[2, 2.5, 0.1]} position={[0, 0, 0]}>
-          <meshStandardMaterial color="#FFFFFF" />
-        </Box>
-        {/* Calendar grid lines */}
-        {[-0.7, -0.2, 0.3, 0.8].map((y, i) => (
-          <Box key={i} args={[1.8, 0.05, 0.05]} position={[0, y, 0.1]}>
-            <meshStandardMaterial color="#DDDDDD" />
-          </Box>
-        ))}
-        {[-0.7, -0.2, 0.3].map((x, i) => (
-          <Box key={i} args={[0.05, 2.3, 0.05]} position={[x, 0, 0.1]}>
-            <meshStandardMaterial color="#DDDDDD" />
-          </Box>
-        ))}
-        {/* Highlight today */}
-        <Box args={[0.4, 0.4, 0.05]} position={[-0.45, 0.55, 0.15]}>
-          <meshStandardMaterial color="#FF375F" />
-        </Box>
-      </group>
-    );
-  }, []);
+  const mesh = useRef();
   
   useFrame((state) => {
-    state.camera.position.y = Math.sin(state.clock.getElapsedTime() * 0.4) * 0.3;
+    if (mesh.current) {
+      mesh.current.rotation.y = Math.sin(state.clock.getElapsedTime() * 0.3) * 0.2;
+    }
   });
   
-  return calendar;
+  return (
+    <group ref={mesh}>
+      <Box args={[2, 2.5, 0.1]} position={[0, 0, 0]}>
+        <meshStandardMaterial color="#FFFFFF" />
+      </Box>
+      {/* Calendar grid lines */}
+      {[-0.7, -0.2, 0.3, 0.8].map((y, i) => (
+        <Box key={i} args={[1.8, 0.05, 0.05]} position={[0, y, 0.1]}>
+          <meshStandardMaterial color="#DDDDDD" />
+        </Box>
+      ))}
+      {[-0.7, -0.2, 0.3].map((x, i) => (
+        <Box key={i} args={[0.05, 2.3, 0.05]} position={[x, 0, 0.1]}>
+          <meshStandardMaterial color="#DDDDDD" />
+        </Box>
+      ))}
+      {/* Highlight today */}
+      <Box args={[0.4, 0.4, 0.05]} position={[-0.45, 0.55, 0.15]}>
+        <meshStandardMaterial color="#FF375F" />
+      </Box>
+    </group>
+  );
 };
 
 const RobotModel = () => {
-  const robot = useMemo(() => {
-    return (
-      <group>
-        {/* Head */}
-        <Box args={[1, 1, 1]} position={[0, 1.5, 0]}>
-          <meshStandardMaterial color="#555555" metalness={0.8} roughness={0.2} />
-        </Box>
-        {/* Eyes */}
-        <Sphere args={[0.15, 16, 16]} position={[-0.3, 1.6, 0.5]}>
-          <meshStandardMaterial color="#00FFFF" emissive="#00FFFF" emissiveIntensity={0.5} />
-        </Sphere>
-        <Sphere args={[0.15, 16, 16]} position={[0.3, 1.6, 0.5]}>
-          <meshStandardMaterial color="#00FFFF" emissive="#00FFFF" emissiveIntensity={0.5} />
-        </Sphere>
-        {/* Body */}
-        <Box args={[1.5, 2, 0.8]} position={[0, -0.2, 0]}>
-          <meshStandardMaterial color="#777777" metalness={0.5} roughness={0.5} />
-        </Box>
-        {/* Arms */}
-        <Box args={[0.4, 1.8, 0.4]} position={[-1.1, 0, 0]}>
-          <meshStandardMaterial color="#666666" metalness={0.7} roughness={0.3} />
-        </Box>
-        <Box args={[0.4, 1.8, 0.4]} position={[1.1, 0, 0]}>
-          <meshStandardMaterial color="#666666" metalness={0.7} roughness={0.3} />
-        </Box>
-      </group>
-    );
-  }, []);
+  const mesh = useRef();
   
   useFrame((state) => {
-    const t = state.clock.getElapsedTime();
-    state.scene.rotation.y = Math.sin(t * 0.3) * 0.2;
+    if (mesh.current) {
+      mesh.current.rotation.y = Math.sin(state.clock.getElapsedTime() * 0.3) * 0.2;
+    }
   });
   
-  return robot;
-};
-
-// Sidebar Component with Steve Jobs aesthetic
-const Sidebar = () => {
-  const location = useLocation();
-  const [activeItem, setActiveItem] = useState(() => {
-    const path = location.pathname.split('/')[1];
-    return path || 'QuickConnect';
-  });
-
-  const menuItems = [
-    { title: 'QuickConnect', icon: HomeIcon, notification: 0, path: '/' },
-    { title: 'PathFinder', icon: ChartBarIcon, notification: 0, path: '/pathfinder' },
-    { title: 'ResumeCraft', icon: AcademicCapIcon, notification: 2, path: '/resumecraft' },
-    { title: 'SpeakSmart', icon: LightBulbIcon, notification: 0, path: '/speaksmart' },
-    { title: 'Skillpuls', icon: UserGroupIcon, notification: 3, path: '/skillpuls' },
-    { title: 'CoachBot', icon: DocumentTextIcon, notification: 0, path: '/coachbot' },
-    { title: 'Growth', icon: BellIcon, notification: 5, path: '/growth' },
-    { title: 'Settings', icon: CogIcon, notification: 0, path: '/settings' },
-    { title: 'Help', icon: QuestionMarkCircleIcon, notification: 0, path: '/help' },
-  ];
-
   return (
-    <div className="w-20 h-screen bg-white fixed top-0 left-0 z-50 shadow-sm border-r border-gray-100">
-      {/* Logo */}
-      <Link to="/" className="block">
-        <div className="flex items-center justify-center h-20 border-b border-gray-100">
-          <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center">
-            <LightBulbIcon className="h-6 w-6 text-white" />
-          </div>
-        </div>
-      </Link>
-
-      {/* Profile */}
-      <div className="flex flex-col p-3 items-center border-b border-gray-100">
-        <div className="relative">
-          <div className="w-10 h-10 rounded-full bg-[#F5F5F7] border border-gray-200 flex items-center justify-center">
-            <span className="text-sm font-medium text-gray-800">AJ</span>
-          </div>
-          <div className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-green-500 border-2 border-white"></div>
-        </div>
-      </div>
-
-      {/* Menu Items */}
-      <nav className="mt-4 px-2 space-y-1">
-        {menuItems.map((item) => (
-          <motion.div key={item.title} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
-            <Link 
-              to={item.path}
-              onClick={() => setActiveItem(item.title)}
-              className={`flex items-center justify-center py-3 rounded-xl cursor-pointer transition-all duration-200 relative group`}
-            >
-              <div className={`flex items-center justify-center w-9 h-9 rounded-lg ${
-                activeItem === item.title 
-                  ? 'bg-black text-white' 
-                  : 'border border-gray-200 bg-[#F5F5F7] text-gray-700'
-              }`}>
-                <item.icon className="h-5 w-5" />
-              </div>
-              
-              {/* Tooltip that appears on hover */}
-              <div className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded-md whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                {item.title}
-                <div className="absolute top-1/2 -left-1 transform -translate-y-1/2 w-0 h-0 border-t-4 border-r-4 border-b-4 border-t-transparent border-r-black border-b-transparent"></div>
-              </div>
-              
-              {item.notification > 0 && (
-                <div className="absolute -top-1 -right-1">
-                  <span className="flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-white text-xs font-medium">
-                    {item.notification}
-                  </span>
-                </div>
-              )}
-            </Link>
-          </motion.div>
-        ))}
-      </nav>
-
-      {/* Pro Access Button */}
-      <div className="absolute bottom-0 w-full p-4 border-t border-gray-100">
-        <motion.div className="flex justify-center relative group" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
-          <Link to="/pricing" className="block">
-            <div className="w-10 h-10 rounded-lg border border-gray-200 bg-[#F5F5F7] flex items-center justify-center cursor-pointer hover:bg-black hover:text-white transition-all">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-              </svg>
-            </div>
-          </Link>
-          
-          <div className="absolute left-full ml-2 px-2 py-1 bg-black text-white text-xs rounded-md whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-            Get Pro Access
-            <div className="absolute top-1/2 -left-1 transform -translate-y-1/2 w-0 h-0 border-t-4 border-r-4 border-b-4 border-t-transparent border-r-black border-b-transparent"></div>
-          </div>
-        </motion.div>
-      </div>
-    </div>
+    <group ref={mesh}>
+      {/* Head */}
+      <Box args={[1, 1, 1]} position={[0, 1.5, 0]}>
+        <meshStandardMaterial color="#555555" metalness={0.8} roughness={0.2} />
+      </Box>
+      {/* Eyes */}
+      <Sphere args={[0.15, 16, 16]} position={[-0.3, 1.6, 0.5]}>
+        <meshStandardMaterial color="#00FFFF" emissive="#00FFFF" emissiveIntensity={0.5} />
+      </Sphere>
+      <Sphere args={[0.15, 16, 16]} position={[0.3, 1.6, 0.5]}>
+        <meshStandardMaterial color="#00FFFF" emissive="#00FFFF" emissiveIntensity={0.5} />
+      </Sphere>
+      {/* Body */}
+      <Box args={[1.5, 2, 0.8]} position={[0, -0.2, 0]}>
+        <meshStandardMaterial color="#777777" metalness={0.5} roughness={0.5} />
+      </Box>
+      {/* Arms */}
+      <Box args={[0.4, 1.8, 0.4]} position={[-1.1, 0, 0]}>
+        <meshStandardMaterial color="#666666" metalness={0.7} roughness={0.3} />
+      </Box>
+      <Box args={[0.4, 1.8, 0.4]} position={[1.1, 0, 0]}>
+        <meshStandardMaterial color="#666666" metalness={0.7} roughness={0.3} />
+      </Box>
+    </group>
   );
 };
 
@@ -296,13 +208,6 @@ const Dashboard = () => {
             <p className="text-gray-600">Your career growth is on track. Here's what you can focus on today.</p>
             <div className="flex flex-wrap gap-3 mt-4">
               <Link 
-                to="/video-call" 
-                className="inline-flex items-center px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors"
-              >
-                <VideoCameraIcon className="h-5 w-5 mr-2" />
-                Start Video Call
-              </Link>
-              <Link 
                 to="/interview-prep" 
                 className="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
               >
@@ -312,13 +217,6 @@ const Dashboard = () => {
             </div>
           </div>
           
-          {/* Voice Recorder Section */}
-          <div className="mb-8">
-            <div className="bg-white bg-opacity-90 backdrop-blur-sm rounded-xl shadow-sm p-6 border border-gray-100">
-              <h3 className="font-semibold text-gray-800 mb-4">Voice Notes</h3>
-              <VoiceRecorder />
-            </div>
-          </div>
             <div className="w-48 h-48">
               <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
                 <ambientLight intensity={0.5} />
