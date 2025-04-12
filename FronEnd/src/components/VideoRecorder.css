@@ -1,0 +1,162 @@
+.video-recorder {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background-color: #000;
+  overflow: hidden;
+}
+
+.video-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.recording-indicator {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 0.5rem 0.75rem;
+  border-radius: 9999px;
+}
+
+.recording-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: #ef4444;
+  border-radius: 50%;
+  margin-right: 8px;
+  animation: blink 1s infinite;
+}
+
+.recording-time {
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.transcript-container {
+  padding: 1.5rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.transcript-container h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.75rem;
+}
+
+.transcript-content {
+  background-color: #f9fafb;
+  padding: 1rem;
+  border-radius: 8px;
+  min-height: 100px;
+  max-height: 200px;
+  overflow-y: auto;
+  color: #4b5563;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.controls {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.record-button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 180px;
+}
+
+.record-button.start {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.record-button.start:hover:not(:disabled) {
+  background-color: #2563eb;
+}
+
+.record-button.stop {
+  background-color: #ef4444;
+  color: white;
+}
+
+.record-button.stop:hover {
+  background-color: #dc2626;
+}
+
+.record-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.controls-message {
+  margin-top: 0.75rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .recording-indicator {
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.25rem 0.5rem;
+  }
+  
+  .recording-dot {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .recording-time {
+    font-size: 0.75rem;
+  }
+  
+  .transcript-container {
+    padding: 1rem;
+  }
+  
+  .controls {
+    padding: 1rem;
+  }
+} 

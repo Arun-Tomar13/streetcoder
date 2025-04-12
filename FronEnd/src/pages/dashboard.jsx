@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Sidebar from '../components/siderbar';
+import VoiceRecorder from '../components/VoiceRecorder';
+import { Link } from 'react-router-dom';
 import { 
   ArrowUpIcon, 
   ArrowDownIcon, 
@@ -10,7 +12,9 @@ import {
   DocumentTextIcon,
   ChartBarIcon,
   LightBulbIcon,
-  MicrophoneIcon
+  MicrophoneIcon,
+  VideoCameraIcon,
+  BriefcaseIcon
 } from '@heroicons/react/24/outline';
 
 const Dashboard = () => {
@@ -83,6 +87,30 @@ const Dashboard = () => {
           <div className="mb-8">
             <h2 className="text-3xl font-bold text-gray-800 mb-2">Welcome back, Alex</h2>
             <p className="text-gray-600">Your career growth is on track. Here's what you can focus on today.</p>
+            <div className="flex flex-wrap gap-3 mt-4">
+              <Link 
+                to="/video-call" 
+                className="inline-flex items-center px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors"
+              >
+                <VideoCameraIcon className="h-5 w-5 mr-2" />
+                Start Video Call
+              </Link>
+              <Link 
+                to="/interview-prep" 
+                className="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+              >
+                <BriefcaseIcon className="h-5 w-5 mr-2" />
+                Practice Interview
+              </Link>
+            </div>
+          </div>
+          
+          {/* Voice Recorder Section */}
+          <div className="mb-8">
+            <div className="bg-white bg-opacity-90 backdrop-blur-sm rounded-xl shadow-sm p-6 border border-gray-100">
+              <h3 className="font-semibold text-gray-800 mb-4">Voice Notes</h3>
+              <VoiceRecorder />
+            </div>
           </div>
           
           {/* AI Insight Card */}

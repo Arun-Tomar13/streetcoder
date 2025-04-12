@@ -1,0 +1,187 @@
+.emotion-tracker {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.emotion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.emotion-header h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.status-badge {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+}
+
+.status-badge.active {
+  background-color: #10b981;
+  color: white;
+}
+
+.status-badge.inactive {
+  background-color: #e5e7eb;
+  color: #4b5563;
+}
+
+.dominant-emotion {
+  background-color: #f9fafb;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.emotion-label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-right: 0.5rem;
+}
+
+.emotion-value {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.emotion-value.happy {
+  color: #f59e0b;
+}
+
+.emotion-value.neutral {
+  color: #6b7280;
+}
+
+.emotion-value.sad {
+  color: #3b82f6;
+}
+
+.emotion-value.angry {
+  color: #ef4444;
+}
+
+.emotion-value.fearful {
+  color: #8b5cf6;
+}
+
+.emotion-value.disgusted {
+  color: #65a30d;
+}
+
+.emotion-value.surprised {
+  color: #ec4899;
+}
+
+.confidence {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.emotion-bars {
+  margin-bottom: 1rem;
+}
+
+.emotion-bar-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.emotion-bar-label {
+  width: 80px;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.emotion-bar-wrapper {
+  flex: 1;
+  height: 8px;
+  background-color: #f3f4f6;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0 0.75rem;
+}
+
+.emotion-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.emotion-bar.happy {
+  background-color: #f59e0b;
+}
+
+.emotion-bar.neutral {
+  background-color: #6b7280;
+}
+
+.emotion-bar.sad {
+  background-color: #3b82f6;
+}
+
+.emotion-bar.angry {
+  background-color: #ef4444;
+}
+
+.emotion-bar.fearful {
+  background-color: #8b5cf6;
+}
+
+.emotion-bar.disgusted {
+  background-color: #65a30d;
+}
+
+.emotion-bar.surprised {
+  background-color: #ec4899;
+}
+
+.emotion-bar-value {
+  width: 40px;
+  text-align: right;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.emotion-message {
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.875rem;
+  font-style: italic;
+  margin-top: 1rem;
+}
+
+@media (max-width: 640px) {
+  .emotion-tracker {
+    padding: 1rem;
+  }
+  
+  .dominant-emotion {
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  
+  .emotion-bar-label {
+    width: 70px;
+  }
+  
+  .emotion-bar-value {
+    width: 35px;
+  }
+} 
