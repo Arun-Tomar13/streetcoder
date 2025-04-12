@@ -1,34 +1,90 @@
 import React from 'react';
-import { Environment } from '@react-three/drei';
+import { Sky, Stars, Cloud } from '@react-three/drei';
 
-// A fallback environment component that offers multiple presets and handles errors gracefully
-export function SafeEnvironment({ preset = 'sunset', fallbacks = ['sunset', 'dawn', 'night', 'warehouse', 'forest', 'apartment', 'studio', 'park', 'lobby'] }) {
-  const [currentPreset, setCurrentPreset] = React.useState(preset);
-  const [errorCount, setErrorCount] = React.useState(0);
-
-  // If we've tried all fallbacks and still have errors, just render a simple environment
-  if (errorCount >= fallbacks.length) {
-    return (
-      <>
-        <ambientLight intensity={1} />
-        <hemisphereLight intensity={0.7} />
-      </>
-    );
-  }
-
-  const handleError = () => {
-    // Try the next preset in the fallbacks array
-    const nextIndex = (fallbacks.indexOf(currentPreset) + 1) % fallbacks.length;
-    setCurrentPreset(fallbacks[nextIndex]);
-    setErrorCount(prev => prev + 1);
+// A completely local environment component that doesn't rely on external HDRI files
+export function SafeEnvironment({ preset = 'sunset' }) {
+  // Define different environment settings based on preset
+  const getEnvironment = () => {
+    switch (preset) {
+      case 'sunset':
+        return (
+          <>
+            <color attach="background" args={['#fde2c9']} />
+            <ambientLight intensity={0.8} />
+            <directionalLight 
+              position={[-5, 5, 5]} 
+              intensity={1.2}
+              color="#ff7e5f"
+            />
+            <Sky 
+              sunPosition={[10, 1, 10]} 
+              mieCoefficient={0.005}
+              mieDirectionalG={0.8}
+              rayleigh={0.5}
+              turbidity={10}
+              distance={450000}
+            />
+            <Cloud
+              scale={[3, 1, 1]}
+              position={[3, 5, -10]}
+              opacity={0.6}
+              speed={0.4}
+              segments={5}
+            />
+          </>
+        );
+      case 'dawn':
+        return (
+          <>
+            <color attach="background" args={['#d6e4ff']} />
+            <ambientLight intensity={0.5} />
+            <directionalLight 
+              position={[0, 2, 5]} 
+              intensity={1}
+              color="#f9e7c1"
+            />
+            <Sky 
+              sunPosition={[3, 0.2, 10]} 
+              mieCoefficient={0.01}
+              mieDirectionalG={0.8}
+              rayleigh={0.6}
+              turbidity={8}
+              distance={450000}
+            />
+            <Cloud
+              scale={[3, 1, 1]}
+              position={[0, 4, -10]}
+              opacity={0.4}
+              speed={0.2}
+              segments={5}
+            />
+          </>
+        );
+      case 'night':
+        return (
+          <>
+            <color attach="background" args={['#04060c']} />
+            <ambientLight intensity={0.2} />
+            <directionalLight 
+              position={[0, 5, 5]} 
+              intensity={0.05}
+              color="#8eb1eb"
+            />
+            <Stars radius={100} depth={50} count={1000} factor={4} />
+          </>
+        );
+      default:
+        return (
+          <>
+            <color attach="background" args={['#ffffff']} />
+            <ambientLight intensity={1} />
+            <directionalLight position={[10, 10, 10]} intensity={0.8} />
+          </>
+        );
+    }
   };
 
-  return (
-    <Environment 
-      preset={currentPreset} 
-      onError={handleError}
-    />
-  );
+  return getEnvironment();
 }
 
 export default SafeEnvironment; 

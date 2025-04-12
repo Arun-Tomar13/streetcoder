@@ -10,6 +10,11 @@ function Login() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [currentField, setCurrentField] = useState(null);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+  const [errors, setErrors] = useState({});
 
   // Preload animation state
   const [animationComplete, setAnimationComplete] = useState(false);
@@ -23,36 +28,52 @@ function Login() {
     return () => clearTimeout(timer);
   }, []);
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+    
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors({
+        ...errors,
+        [name]: ''
+      });
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    }
+    
+    if (!formData.password.trim()) {
+      newErrors.password = 'Password is required';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate form before proceeding
+    if (!validateForm()) {
+      toast.error('Please fill in all required fields');
+      return;
+    }
+    
     setLoading(true);
 
-    try {
-      const formData = new FormData(e.target);
-      const response = await axios.post('http://localhost:3000/signin', {
-        email: formData.get('email'),
-        password: formData.get('password')
-      });
+    await new Promise(resolve => setTimeout(resolve, 250));
 
-      sessionStorage.setItem('token', response.data.token);
-      sessionStorage.setItem('user', JSON.stringify(response.data.user));
-      
-      // Success animation
-      toast.success('Login successful!');
-      
-      // Animation before redirect
-      document.querySelector('.login-container').classList.add('fade-out');
-      
-      setTimeout(() => {
-        navigate('/dashboard');
-      }, 800);
-      
-    } catch (error) {
-      console.error('Login error:', error);
-      toast.error('Login failed. Please check your credentials.');
-    } finally {
-      setLoading(false);
-    }
+    setLoading(false);
+    navigate('/dashboard');
   };
 
   return (
@@ -290,18 +311,28 @@ function Login() {
                       id="email"
                       name="email"
                       type="email"
-                      required
+                      value={formData.email}
+                      onChange={handleChange}
                       className="w-full px-4 py-3 rounded-lg focus:outline-none transition-all duration-300"
                       style={{ 
                         backgroundColor: theme.colors.background.card,
                         color: theme.colors.text.primary,
-                        border: `1px solid ${currentField === 'email' ? theme.colors.teal[500] : '#E5E7EB'}`
+                        border: `1px solid ${errors.email ? 'red' : currentField === 'email' ? theme.colors.teal[500] : '#E5E7EB'}`
                       }}
                       placeholder="Enter your email"
                       onFocus={() => setCurrentField('email')}
                       onBlur={() => setCurrentField(null)}
                     />
                   </motion.div>
+                  {errors.email && (
+                    <motion.p 
+                      className="mt-1 text-xs text-red-500"
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      {errors.email}
+                    </motion.p>
+                  )}
                 </motion.div>
                 
                 <motion.div
@@ -331,18 +362,28 @@ function Login() {
                       id="password"
                       name="password"
                       type="password"
-                      required
+                      value={formData.password}
+                      onChange={handleChange}
                       className="w-full px-4 py-3 rounded-lg focus:outline-none transition-all duration-300"
                       style={{ 
                         backgroundColor: theme.colors.background.card,
                         color: theme.colors.text.primary,
-                        border: `1px solid ${currentField === 'password' ? theme.colors.teal[500] : '#E5E7EB'}`
+                        border: `1px solid ${errors.password ? 'red' : currentField === 'password' ? theme.colors.teal[500] : '#E5E7EB'}`
                       }}
                       placeholder="Enter your password"
                       onFocus={() => setCurrentField('password')}
                       onBlur={() => setCurrentField(null)}
                     />
                   </motion.div>
+                  {errors.password && (
+                    <motion.p 
+                      className="mt-1 text-xs text-red-500"
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      {errors.password}
+                    </motion.p>
+                  )}
                 </motion.div>
                 
                 <motion.div 

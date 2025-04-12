@@ -7,9 +7,16 @@ import {
   Stars, 
   Environment,
   useGLTF, 
-  Line
+  Line,
+  Float,
+  PerspectiveCamera,
+  Sparkles,
+  Loader
 } from '@react-three/drei';
 import * as THREE from 'three';
+import { Toaster, toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import SafeEnvironment from '../components/EnvironmentFallback';
 
 // Loading component that will show while 3D content loads
 const LoadingScreen = () => (
@@ -564,7 +571,7 @@ const HeroSection = () => {
             <Stars radius={100} depth={50} count={5000} factor={4} saturation={0.5} speed={1} />
             
             {/* Environment helps with lighting */}
-            <Environment preset="night" />
+            <SafeEnvironment preset="night" />
           </Suspense>
           
           {/* Orbit controls disabled for custom interactions */}

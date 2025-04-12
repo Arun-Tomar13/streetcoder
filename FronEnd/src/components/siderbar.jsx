@@ -22,13 +22,13 @@ const Sidebar = () => {
   });
 
   const menuItems = [
-    { title: 'QuickConnect', icon: HomeIcon, notification: 0, path: '/dashboard/quickconnect' },
+    { title: 'CoachBot', icon: DocumentTextIcon, notification: 0, path: '/dashboard/coachbot' },
     { title: 'PathFinder', icon: ChartBarIcon, notification: 0, path: '/dashboard/pathfinder' },
-    { title: 'ResumeCraft', icon: AcademicCapIcon, notification: 2, path: '/dashboard/resumecraft' },
+    { title: 'PortfolioCraft', icon: AcademicCapIcon, notification: 2, path: '/dashboard/resumecraft' },
+    { title: 'Growth', icon: BellIcon, notification: 5, path: '/dashboard/growth' },
     { title: 'SpeakSmart', icon: LightBulbIcon, notification: 0, path: '/dashboard/speaksmart' },
     { title: 'Skillpuls', icon: UsersIcon, notification: 3, path: '/dashboard/skillpuls' },
-    { title: 'CoachBot', icon: DocumentTextIcon, notification: 0, path: '/dashboard/coachbot' },
-    { title: 'Growth', icon: BellIcon, notification: 5, path: '/dashboard/growth' },
+    { title: 'QuickConnect', icon: HomeIcon, notification: 0, path: '/dashboard/quickconnect' },
     { title: 'Settings', icon: CogIcon, notification: 0, path: '/dashboard/settings' },
     { title: 'Help', icon: QuestionMarkCircleIcon, notification: 0, path: '/dashboard/help' },
   ];

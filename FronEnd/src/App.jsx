@@ -9,6 +9,7 @@ import Elon from './pages/custom'
 import VideoCallRecorder from './components/VideoCallRecorder'
 import InterviewPrep from './pages/InterviewPrep'
 import PathFinder from './pages/PathFinder'
+import Growth from './pages/growth'
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/dashboard/resumecraft" element={<ResumeCraft />} />
         <Route path="/dashboard/pathfinder" element={<PathFinder />} />
-        
+        <Route path="/dashboard/growth" element={<Growth />} />
         {/* Resume Craft Portfolio Routes */}
         <Route path="/dashboard/resumecraft/portfolio" element={<Portfolio />} />
         <Route path="/dashboard/resumecraft/portfolio/:type" element={<Portfolio />} />
