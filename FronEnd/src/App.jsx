@@ -8,6 +8,8 @@ import Developer from './pages/developer'
 import Elon from './pages/custom'
 import VideoCallRecorder from './components/VideoCallRecorder'
 import InterviewPrep from './pages/InterviewPrep'
+import LearningDashboard from './pages/LearningDashboard'
+import CoachBot from './pages/CoachBot'
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/dashboard/resumecraft" element={<ResumeCraft />} />
+        <Route path="/dashboard/learning" element={<LearningDashboard />} />
+        <Route path="/dashboard/coachbot" element={<CoachBot />} />
         
         {/* Resume Craft Portfolio Routes */}
         <Route path="/dashboard/resumecraft/portfolio" element={<Portfolio />} />
