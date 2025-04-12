@@ -6,10 +6,14 @@ import { ResumeCraft } from './pages/resumecraft'
 import Portfolio from './pages/portfolio'
 import Developer from './pages/developer'
 import Elon from './pages/custom'
+import VideoCallRecorder from './components/VideoCallRecorder'
+import InterviewPrep from './pages/InterviewPrep'
+
 function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/dashboard" element={<Dashboard />} />
@@ -27,6 +31,8 @@ function App() {
         <Route path="/dashboard/portfolio/:type/preview" element={<Navigate to="/dashboard/resumecraft/portfolio/:type/preview" replace />} />
         
         <Route path="/" element={<Navigate to="/dashboard" />} />
+        <Route path="/video-call" element={<VideoCallRecorder />} />
+        <Route path="/interview-prep" element={<InterviewPrep />} />
       </Routes>
     </Router>
   )
