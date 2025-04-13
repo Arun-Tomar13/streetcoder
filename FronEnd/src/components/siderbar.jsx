@@ -25,13 +25,10 @@ const Sidebar = () => {
   const menuItems = [
     { title: 'CoachBot', icon: DocumentTextIcon, notification: 0, path: '/dashboard/coachbot' },
     { title: 'PathFinder', icon: ChartBarIcon, notification: 0, path: '/dashboard/pathfinder' },
-<<<<<<< HEAD
     { title: 'Learning', icon: BookOpenIcon, notification: 4, path: '/dashboard/learning' },
     { title: 'ResumeCraft', icon: AcademicCapIcon, notification: 2, path: '/dashboard/resumecraft' },
-=======
     { title: 'PortfolioCraft', icon: AcademicCapIcon, notification: 2, path: '/dashboard/resumecraft' },
     { title: 'Growth', icon: BellIcon, notification: 5, path: '/dashboard/growth' },
->>>>>>> da2feb0722c6c5d4e663cf80331ba58fc3493541
     { title: 'SpeakSmart', icon: LightBulbIcon, notification: 0, path: '/dashboard/speaksmart' },
     { title: 'Skillpuls', icon: UsersIcon, notification: 3, path: '/dashboard/skillpuls' },
     { title: 'QuickConnect', icon: HomeIcon, notification: 0, path: '/dashboard/quickconnect' },
