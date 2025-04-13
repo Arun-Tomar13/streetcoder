@@ -491,3 +491,114 @@ function createFallbackResumeAnalysis(resumeText = '') {
     summary: "This resume is reasonably structured but has room for improvement in keyword usage and quantifiable achievements to better pass through ATS systems."
   };
 }
+
+// Generate AI insights based on goals and reflections
+export const generateGoalInsights = async (goals, reflections) => {
+  const prompt = `
+    You are an AI assistant helping a user improve their productivity and goal achievement.
+    
+    Here are the user's current goals:
+    ${JSON.stringify(goals)}
+    
+    Here are the user's recent reflections:
+    ${JSON.stringify(reflections)}
+    
+    Based on this information, please provide:
+    1. 2-3 suggested micro-goals that would help them make progress
+    2. 2-3 personalized tips based on their reflection patterns
+    3. A motivational message tailored to their current progress
+    
+    Format your response as a JSON object with this structure:
+    {
+      "microGoals": [
+        {
+          "title": "Micro-goal title",
+          "description": "Brief description of the micro-goal",
+          "estimatedTime": "1-2 hours", 
+          "relatedMainGoal": "Title of the related main goal"
+        }
+      ],
+      "tips": [
+        {
+          "tip": "Specific productivity tip",
+          "reasoning": "Why this tip is relevant based on reflection data"
+        }
+      ],
+      "motivationalMessage": "A personalized motivational message"
+    }
+  `;
+
+  try {
+    const response = await fetch(`${API_URL}?key=${API_KEY}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        contents: [
+          {
+            parts: [{ text: prompt }]
+          }
+        ],
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 1024,
+          response_mime_type: "application/json",
+        }
+      })
+    });
+
+    const data = await response.json();
+    
+    if (data.error) {
+      console.error("Gemini API error:", data.error);
+      throw new Error(data.error.message);
+    }
+
+    const responseText = data.candidates[0].content.parts[0].text;
+
+    try {
+      const jsonStart = responseText.indexOf('{');
+      const jsonEnd = responseText.lastIndexOf('}') + 1;
+      const jsonString = responseText.substring(jsonStart, jsonEnd);
+      return JSON.parse(jsonString);
+    } catch (parseError) {
+      console.error("Error parsing JSON from response:", parseError);
+      return createFallbackGoalInsights(goals);
+    }
+  } catch (error) {
+    console.error("Error calling Gemini API:", error);
+    return createFallbackGoalInsights(goals);
+  }
+};
+
+// Helper function to create fallback goal insights
+function createFallbackGoalInsights(goals) {
+  return {
+    microGoals: [
+      {
+        title: "Break down your first task",
+        description: "Divide your most important goal into smaller, achievable tasks",
+        estimatedTime: "30 minutes",
+        relatedMainGoal: goals.length > 0 ? goals[0].title : "Your main project"
+      },
+      {
+        title: "Schedule focused work time",
+        description: "Block out 2 hours of uninterrupted time for deep work",
+        estimatedTime: "2 hours",
+        relatedMainGoal: "Productivity improvement"
+      }
+    ],
+    tips: [
+      {
+        tip: "Try working in 25-minute Pomodoro sessions",
+        reasoning: "This can help maintain focus and track progress throughout the day"
+      },
+      {
+        tip: "End each day by planning the next morning's tasks",
+        reasoning: "This creates a clear starting point and reduces decision fatigue"
+      }
+    ],
+    motivationalMessage: "You're making steady progress. Remember that consistent small steps lead to big achievements over time."
+  };
+}

@@ -823,7 +823,7 @@ function Growth() {
       
       {/* Scroll indicator */}
       <motion.div 
-        className="fixed bottom-10 left-1/2 transform -translate-x-1/2 w-8 h-14 rounded-full border-2 border-white flex justify-center items-start p-2 opacity-50 hidden md:flex"
+        className="fixed bottom-10 left-1/2 transform -translate-x-1/2 w-8 h-14 rounded-full border-2 border-white justify-center items-start p-2 opacity-50 hidden md:flex"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 0.5, y: 0 }}
         transition={{ delay: 1, duration: 0.5 }}

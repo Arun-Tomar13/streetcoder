@@ -9,9 +9,8 @@ import Elon from './pages/custom'
 import VideoCallRecorder from './components/VideoCallRecorder'
 import InterviewPrep from './pages/InterviewPrep'
 import LearningDashboard from './pages/LearningDashboard'
-import CoachBot from './pages/CoachBot'
+import CoachGoalTracker from './pages/CoachGoalTracker'
 import PathFinder from './pages/PathFinder'
-import Growth from './pages/growth'
 import QuickConnect from './pages/quickconnect'
 
 function App() {
@@ -24,9 +23,9 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/dashboard/resumecraft" element={<ResumeCraft />} />
         <Route path="/dashboard/learning" element={<LearningDashboard />} />
-        <Route path="/dashboard/coachbot" element={<CoachBot />} />
+        <Route path="/dashboard/coachbot" element={<CoachGoalTracker />} />
         <Route path="/dashboard/pathfinder" element={<PathFinder />} />
-        <Route path="/dashboard/growth" element={<Growth />} />
+        <Route path="/dashboard/growth" element={<CoachGoalTracker />} />
         <Route path="/dashboard/quickconnect" element={<QuickConnect />} />
         
         {/* Resume Craft Portfolio Routes */}

@@ -10,7 +10,7 @@ import {
   ChatBubbleLeftRightIcon
 } from '@heroicons/react/24/outline';
 
-// Main Dashboard Component
+// Main Dashboard Component 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
   
@@ -62,30 +62,74 @@ const Dashboard = () => {
                 <h3 className="font-semibold text-xl text-[#333333]">427</h3>
                 <p className="text-gray-500 text-xs">Profile views this week</p>
               </div>
-              <div className="w-12 h-12 rounded-xl bg-[#C3D9F1] flex items-center justify-center">
+              <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center ml-4">
                 <UserGroupIcon className="w-6 h-6 text-[#41A6B2]" />
               </div>
             </div>
             
-            <div className="bg-white rounded-2xl p-5 shadow-md flex-1 flex items-center justify-between border border-gray-100">
-              <div>
-                <p className="text-gray-500 text-sm mb-1">Interview Score</p>
-                <h3 className="font-semibold text-xl text-[#333333]">87%</h3>
-                <p className="text-gray-500 text-xs">Resume completion</p>
+            <div className="bg-white rounded-2xl p-5 shadow-md flex-1 flex flex-col border border-gray-100">
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="font-semibold text-gray-700">App Development</h3>
+                <span className="text-xs text-gray-500">Design Exercises</span>
               </div>
-              <div className="w-12 h-12 rounded-xl bg-[#8FD3C9] flex items-center justify-center">
-                <ClipboardDocumentCheckIcon className="w-6 h-6 text-[#41A6B2]" />
+              
+              <div className="flex items-center gap-1 mb-3">
+                <div className="flex -space-x-2">
+                  <div className="w-6 h-6 rounded-full bg-gray-300 border-2 border-white"></div>
+                  <div className="w-6 h-6 rounded-full bg-gray-400 border-2 border-white"></div>
+                  <div className="w-6 h-6 rounded-full bg-gray-500 border-2 border-white"></div>
+                </div>
+                <span className="text-xs text-gray-500 ml-1">+2</span>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-medium text-green-500">Progress</span>
+                  <span className="text-xs font-medium text-green-500">45%</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span className="text-xs text-gray-500">2 Weeks left</span>
+                </div>
+              </div>
+              
+              <div className="mt-2 w-full bg-gray-100 rounded-full h-1.5">
+                <div className="bg-green-500 h-1.5 rounded-full" style={{width: "45%"}}></div>
               </div>
             </div>  
             
-            <div className="bg-white rounded-2xl p-5 shadow-md flex-1 flex items-center justify-between border border-gray-100">
-              <div>
-                <p className="text-gray-500 text-sm mb-1">Resume Strength</p>
-                <h3 className="font-semibold text-xl text-[#333333]">4</h3>
-                <p className="text-gray-500 text-xs">Skills validated</p>
+            <div className="bg-white rounded-2xl p-5 shadow-md flex-1 flex flex-col border border-gray-100">
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="font-semibold text-gray-700">UX Research</h3>
+                <span className="text-xs text-gray-500">User Testing</span>
               </div>
-              <div className="w-12 h-12 rounded-xl bg-[#F5C0CF] flex items-center justify-center">
-                <AcademicCapIcon className="w-6 h-6 text-[#41A6B2]" />
+              
+              <div className="flex items-center gap-1 mb-3">
+                <div className="flex -space-x-2">
+                  <div className="w-6 h-6 rounded-full bg-gray-300 border-2 border-white"></div>
+                  <div className="w-6 h-6 rounded-full bg-gray-400 border-2 border-white"></div>
+                  <div className="w-6 h-6 rounded-full bg-gray-500 border-2 border-white"></div>
+                </div>
+                <span className="text-xs text-gray-500 ml-1">+1</span>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-medium text-green-500">Progress</span>
+                  <span className="text-xs font-medium text-green-500">68%</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span className="text-xs text-gray-500">1 Week left</span>
+                </div>
+              </div>
+              
+              <div className="mt-2 w-full bg-gray-100 rounded-full h-1.5">
+                <div className="bg-green-500 h-1.5 rounded-full" style={{width: "68%"}}></div>
               </div>
             </div>
             
@@ -97,6 +141,8 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
+          
+        
           
           {/* Main Content Sections */}
           <div className="grid grid-cols-12 gap-6">
